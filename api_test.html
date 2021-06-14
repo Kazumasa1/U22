@@ -1,36 +1,38 @@
-<!DOCTYPE html>
-<html>
-  <head>
-  <script>
-    const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');
-    const { IamAuthenticator } = require('ibm-watson/auth');
+<button id="start-btn">start</button>
+<button id="stop-btn">stop</button>
+<div id="result-div"></div>
 
-    const speechToText = new SpeechToTextV1({
-      authenticator: new IamAuthenticator({
-        apikey: '6qSBPhfVNU7Q-4_u3yg1dbYruo9IUWafo6IuyLWwiFxR',
-      }),
-      serviceUrl: 'https://api.jp-tok.speech-to-text.watson.cloud.ibm.com/instances/59117c1c-fab4-43b6-9803-ad4fe6e3ca62',
-    });
+<script>
+  const startBtn = document.querySelector('#start-btn');
+  const stopBtn = document.querySelector('#stop-btn');
+  const resultDiv = document.querySelector('#result-div');
 
-    const getModelParams = {
-      modelId: 'en-US_BroadbandModel',
-    };
+  SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
+  let recognition = new SpeechRecognition();
 
-    speechToText.getModel(getModelParams)
-      .then(speechModel => {
-        console.log(JSON.stringify(speechModel, null, 2));
-      })
-      .catch(err => {
-        console.log('error:', err);
-      });
-  </script>
-  </head>
-  <body>
-    <div>
-        <button>start</button>
-        <button>stop</button>
-    </div>
-    <textarea name="" id="" cols="60" rows="40"></textarea>
-    
-  </body>
-</html>
+  recognition.lang = 'ja-JP';
+  recognition.interimResults = true;
+  recognition.continuous = true;
+
+  let finalTranscript = '';
+
+  recognition.onresult = (event) => {
+    let interimTranscript = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      let transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        finalTranscript += transcript;
+      } else {
+        interimTranscript = transcript;
+      }
+    }
+    resultDiv.innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</i>';
+  }
+
+  startBtn.onclick = () => {
+    recognition.start();
+  }
+  stopBtn.onclick = () => {
+    recognition.stop();
+  }
+</script>
