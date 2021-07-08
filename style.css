@@ -1,0 +1,116 @@
+body {
+    background-color: #f4f4f4;
+    margin-right: auto;
+    margin-left: auto;
+    width: 1000px;
+}
+h1 {
+    /* background-color: aquamarine; */
+    width: 1000px;
+    font-size: 36px;
+    margin: 40px 0 164px 0;
+}
+#how-to-use {
+    background-color: #fff;
+    width: 1000px;
+    height: 400px;
+    margin: 0 40px 200px 0;
+    position: relative;
+}
+#how-to-use h2 {
+    /* background-color: chocolate; */
+    font-size: 36px;
+    margin: 10px;
+    position: absolute;
+}
+#how-to-use p {
+    /* background-color: crimson; */
+    margin: 92px 10px 10px 10px;
+    position: absolute;
+}
+#button-line {
+    /* background-color: rgb(207, 197, 170); */
+    width: 1000px;
+    height: 50px;
+    margin-bottom: 30px;
+}
+.button-box {
+    background-color: gold;
+    width: 250px;
+    height: 50px;
+    border: 1px solid #000000;
+    margin-right: 32px;
+}
+.button-box img {
+    width: 32px;
+    height: 32px;
+    margin: 10px;
+    display: inline-block;
+}
+.button-box p {
+    margin-bottom: 16px;
+    display: inline-block;
+}
+#contents {
+    background-color: #fff;
+    width: 1000px;
+    height: 500px;
+    border: 1px solid #000000;
+    margin-bottom: 40px;
+}
+.tab {
+    background-color: #fff;
+    width: 998px;
+    height: 50px;
+    border-bottom: 1px solid #000000;
+    /* border: 1px solid #000000; */
+}
+#meeting-name {
+    background-color: #fff;
+    width: 500px;
+    height: 48px;
+    display: inline-block;
+    position: relative;
+}
+#meeting-name input{
+    position: absolute;
+    width: 475px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 5px 0 0 10px;
+}
+#checker {
+    background-color: #fff;
+
+    width: 100px;
+    height: 48px;
+    margin-left: 100px;
+    display: inline-block;
+    position: relative;
+}
+#checker p {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 16px 0 0 10px;
+}
+#log {
+    background-color: #fff;
+    width: 100px;
+    height: 48px;
+    display: inline-block;
+    position: relative;
+}
+#log p {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 16px 0 0 10px;
+}
+
