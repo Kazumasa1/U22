@@ -12,19 +12,23 @@ recognition.interimResults = true;
 recognition.continuous = true;
 
 let finalTranscript = '';
+let toTextFileArray = '';
 
 recognition.onresult = (event) => {
     let interimTranscript = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
     let transcript = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
+        toTextFileArray += transcript;
+        toTextFileArray += ',';
+        console.log(toTextFileArray);
         finalTranscript += transcript += '<br>';
-        console.log(transcript);
     } else {
         interimTranscript = transcript;
     }
     }
     resultDiv.innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</i>';
+
 }
 
 function start(){
@@ -32,13 +36,19 @@ function start(){
     recognition.start();
 }
 
-function toText(){
+//JSON.stringify(toTextFileArray)
 
-    let blob = new Blob(['よろしくお願いします\n最近はアボカドの種を捨てないで取っといて水耕栽培をしています\n育て始めて6ヶ月たってやっと歯が出てきました'],{type:"text/plan"});
+function toTextFile(){
+
+    let blob = new Blob([toTextFileArray] ,{type:"text/plan"});
+    // let blob = new Blob(['よろしくお願いします\n最近はアボカドの種を捨てないで取っといて水耕栽培をしています\n育て始めて6ヶ月たってやっと歯が出てきました'],{type:"text/plan"});
     let link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = '2021-07-17:新メニュー会議.txt';
+    let meeting_name = document.getElementById("meeting-title");
+    link.download = meeting_name.value;
     link.click();
+
+    // console.log(document.getElementById("result-div"));
 }
 
 
