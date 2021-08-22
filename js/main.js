@@ -12,16 +12,18 @@ recognition.interimResults = true;
 recognition.continuous = true;
 
 let finalTranscript = '';
-let toTextFileArray = '';
+// let toTextFileArray = '';
+let toTextFileArray = [];
 
 recognition.onresult = (event) => {
     let interimTranscript = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
     let transcript = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
-        toTextFileArray += transcript;
-        toTextFileArray += ',';
-        console.log(toTextFileArray);
+        // toTextFileArray += transcript;
+        // toTextFileArray += ',';
+        // console.log(toTextFileArray);
+        toTextFileArray.push(transcript);
         finalTranscript += transcript += '<br>';
     } else {
         interimTranscript = transcript;
@@ -36,10 +38,11 @@ function start(){
     recognition.start();
 }
 
-//JSON.stringify(toTextFileArray)
+//JSON.stringify(inputTextFileArray)
 
 function toTextFile(){
 
+    // let blob = new Blob([toTextFileArray] ,{type:"text/plan"});
     let blob = new Blob([toTextFileArray] ,{type:"text/plan"});
     // let blob = new Blob(['よろしくお願いします\n最近はアボカドの種を捨てないで取っといて水耕栽培をしています\n育て始めて6ヶ月たってやっと歯が出てきました'],{type:"text/plan"});
     let link = document.createElement('a');
@@ -49,10 +52,13 @@ function toTextFile(){
     link.click();
 
     // console.log(document.getElementById("result-div"));
+
+
 }
 
 
 const text = document.getElementById("text-file");
+let inputTextFileArray = [];
 
 //ダイアログでファイルが選択された時
 text.addEventListener("change", function (event) {
@@ -68,7 +74,11 @@ text.addEventListener("change", function (event) {
     reader.onload = function () {
         //テキストエリアに表示する
         // text.value = reader.result;
-        console.log(reader.result);
+        inputTextFileArray += reader.result;
+        inputTextFileArray = inputTextFileArray.split(',');
+        console.log(inputTextFileArray);
+        console.log(inputTextFileArray2);
+        console.log(inputTextFileArray.length);
     }
 });
 
@@ -82,3 +92,6 @@ function textAdd(){
     x.style.color = 'red';
     x.appendChild(text1);
 }
+
+
+// for (let )
