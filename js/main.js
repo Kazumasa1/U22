@@ -27,25 +27,6 @@ recognition.onresult = (event) => {
     resultDiv.innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</i>';
 }
 
-var input_text_file = document.getElementById("text-file");
-
-//ダイアログでファイルが選択された時
-input_text_file.addEventListener("change",function(evt){
-
-  var file = evt.target.files;
-
-  //FileReaderの作成
-  var reader = new FileReader();
-  //テキスト形式で読み込む
-  reader.readAsText(file[0]);
-  
-  //読込終了後の処理
-  reader.onload = function(ev){
-    //テキストエリアに表示する
-    document.test.txt.value = reader.result;
-  }
-},false);
-
 function start(){
 
     recognition.start();
@@ -61,25 +42,25 @@ function toText(){
 }
 
 
-// const sample = document.getElementById("sample");
-// const text = document.getElementById("text")
+const text = document.getElementById("text-file");
 
-// //ダイアログでファイルが選択された時
-// sample.addEventListener("change", function (event) {
+//ダイアログでファイルが選択された時
+text.addEventListener("change", function (event) {
 
-//     const file = event.target.files;
+    const file = event.target.files;
 
-//     //FileReaderの作成
-//     const reader = new FileReader();
-//     //テキスト形式で読み込む
-//     reader.readAsText(file[0]);
+    //FileReaderの作成
+    const reader = new FileReader();
+    //テキスト形式で読み込む
+    reader.readAsText(file[0]);
 
-//     //読込終了後の処理
-//     reader.onload = function () {
-//         //テキストエリアに表示する
-//         text.value = reader.result;
-//     }
-// });
+    //読込終了後の処理
+    reader.onload = function () {
+        //テキストエリアに表示する
+        // text.value = reader.result;
+        console.log(reader.result);
+    }
+});
 
 // setTimeout(textAdd, 40000);
 
