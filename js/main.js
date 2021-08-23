@@ -95,19 +95,25 @@ text.addEventListener("change", function (event) {
         }else {
             // 選択されたテキストファイルの文字列の数が比較文字数より多いときの処理
             slice_ed = COMP_TEXT_LEN;
+            let itijiArray = [];
             
             let compTextArray_len = Math.floor(TextArray_len / COMP_TEXT_LEN);
             for (let i = 0; i <=  compTextArray_len; i++) {
-                compTextArray.push(inputTextFileArray.slice(slice_st, slice_ed));
-                // compTextArray += inputTextFileArray.slice(slice_st, slice_ed);
+
+                // compTextArray.push(inputTextFileArray.slice(slice_st, slice_ed));
+                itijiArray += inputTextFileArray.slice(slice_st, slice_ed);
+                compTextArray.push(itijiArray);
                 slice_st = slice_ed;
                 slice_ed += COMP_TEXT_LEN;
             }
             console.log('false');
         }
         console.log(compTextArray);
+        console.log(compTextArray[1]);
     }
 });
+
+
 
 // setTimeout(textAdd, 40000);
 
@@ -122,4 +128,67 @@ function textAdd(){
 }
 
 
-// for (let )
+// axios(options)
+//     .then((res) => {
+//         console.log(res.data);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+// });
+
+// toNodejs = {
+//     text1: compTextArray[0],
+//     text2: compTextArray[1]
+// };
+
+// import { textpair } from "./textpair.js";
+// let inTextpair = require('./textpair.js');
+
+// inTextpair();
+
+// var f = require('./textpair.js');
+
+
+
+// function postForm(value) {
+ 
+//     var form = document.createElement('form');
+//     var request = document.createElement('input');
+ 
+//     form.method = 'POST';
+//     form.action = '';
+ 
+//     request.type = 'hidden'; //入力フォームが表示されないように
+//     request.name = 'text';
+//     request.value = value;
+ 
+//     form.appendChild(request);
+//     document.body.appendChild(form);
+ 
+//     form.submit();
+ 
+// }
+
+
+// setTimeout();
+// postForm('hello world!');
+
+
+const postForm = value => {
+    var form = document.createElement('form');
+    var request = document.createElement('input');
+ 
+    form.method = 'POST';
+    form.action = '';
+ 
+    request.type = 'hidden'; //入力フォームが表示されないように
+    request.name = 'text';
+    request.value = value;
+ 
+    form.appendChild(request);
+    document.body.appendChild(form);
+ 
+    form.submit();
+};
+
+const timer = setInterval(function(){postForm('hoge')},2000);

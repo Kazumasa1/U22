@@ -5,6 +5,7 @@
     <title>重複チェッカー！</title>
     <link rel="stylesheet" href="./css/destyle.css">
     <link rel="stylesheet" href="./css/style.css" type="text/css">
+    <script data-main="main.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
 </head>
 <body>
     <h1>重複チェッカー（仮）</h1>
@@ -14,35 +15,41 @@
     </div>
     
     <div id="button-line">
-            <button id="#start-btn" class="button-box" onclick="start()">
-                <img src="./images/microphone.png" alt="録音開始ボタン">
-                <p>録音開始</p>
-            </button>
-            
-            <button class="button-box" onclick="toTextFile()">
-                <img src="./images/output.png" alt="ファイルを書き出すボタン">
-                <p>ファイルで書き出す</p>
-            </button>
-            
-            <input type="file" id="text-file">
-        </div>
+        <button id="#start-btn" class="button-box" onclick="start()">
+            <img src="./images/microphone.png" alt="録音開始ボタン">
+            <p>録音開始</p>
+        </button>
         
+        <button class="button-box" onclick="toTextFile()">
+            <img src="./images/output.png" alt="ファイルを書き出すボタン">
+            <p>ファイルで書き出す</p>
+        </button>
         
-        <div id="contents">
-            <div class="tab">
-                <div id="meeting-name">
-                    <input type="text" value="会議名：" id="meeting-title">
-                </div>
-                <div id="checker">
-                    <p>チェッカー</p>
-                </div>
-                <div id="log"></div>
+        <input type="file" id="text-file">
+    </div>
+    
+    
+    <div id="contents">
+        <div class="tab">
+            <div id="meeting-name">
+                <input type="text" value="会議名：" id="meeting-title">
             </div>
-            
-            <div id="result-div" class="main-contents-area"></div>
-            <div id="checker-text" class="checker-area"></div>
-            <div class="log-area"></div>
+            <div id="checker">
+                <p>チェッカー</p>
+            </div>
+            <div id="log"></div>
         </div>
+        
+        <div id="result-div" class="main-contents-area"></div>
+        <div id="checker-text" class="checker-area"></div>
+        <div class="log-area"></div>
+    </div>
+    <!-- <form method="POST">
+        名前：<input type="text" name="name"><br>
+        年齢：<input type="number" name="age"><br>
+        <input type="submit">
+      </form> -->
+        <!-- <script src="path/to/my/store.legacy.min.js"></script> -->
         <script src="./js/main.js"></script>
 </body>
 </html>
