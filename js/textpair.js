@@ -43,7 +43,8 @@ const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = http.createServer(RouteSetting);
-var data = '';
+var data = [];
+// var data = '';
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
@@ -115,34 +116,49 @@ server.listen(port, hostname, () => {
                 
                 function RouteSetting(req, res) {
                     
-                    data = '';
+                    data = [];
                     
                     //POSTデータを受けとる
                     req.on('data', function(chunk) {data += chunk})
                     .on('end', function() {
                         
-                        console.log(data);
-                        console.log(api_data);
-                        res.end(data);
-                        api_data = data;
-                        console.log(api_data);
+                        // data = new Set(data);
+                        // Array.from(data);
+
                         
-                        axios(options).then((res) => {
-                            console.log(api_data);
-                            console.log(res.data);
-                            console.log('kontiwa');
-                            // console.log(api_data);
-                            // api_data = res.data;
+                        // data = JSON.stringify(data);
+                        data = data.split(',');
+                        console.log(data);
+                        // data = JSON.parse(data);
+                        // data = JSON.stringify(data);
+                        
+                        console.log(data[1]);
+                        // console.log(data["text1"]);
+                        // console.log(data["text1"][0]);
+                        // console.log('dodaro');
+                        // console.log(data[4]);
+                        // console.log(data[0][0]['text1']);
+                        // console.log(api_data);
+                        // res.end(data);
+                        // api_data = data;
+                        // console.log(api_data);
+                        
+                        // axios(options).then((res) => {
+                        //     console.log(api_data);
+                        //     console.log(res.data);
+                        //     console.log('kontiwa');
+                        //     // console.log(api_data);
+                        //     // api_data = res.data;
                             
-                            // console.log(api_data);
-                            // api_data = String(api_data);
-                            // api_data = api_data.toString();
-                            // api_data = JSON.stringify(api_data);
-                            // console.log(api_data);
-                        }).catch((err) => {
-                            // console.log(err);
-                            console.log('err');
-                        });
+                        //     // console.log(api_data);
+                        //     // api_data = String(api_data);
+                        //     // api_data = api_data.toString();
+                        //     // api_data = JSON.stringify(api_data);
+                        //     // console.log(api_data);
+                        // }).catch((err) => {
+                        //     // console.log(err);
+                        //     console.log('err');
+                        // });
 
                         options = {
                             method: 'post',
