@@ -174,21 +174,58 @@ function textAdd(){
 // postForm('hello world!');
 
 
+// const postForm = value => {
+//     var form = document.createElement('form');
+//     var request = document.createElement('input');
+ 
+//     form.method = 'POST';
+//     form.action = '';
+ 
+//     request.type = 'hidden'; //入力フォームが表示されないように
+//     request.name = 'text';
+//     request.value = value;
+ 
+//     form.appendChild(request);
+//     document.body.appendChild(form);
+ 
+//     form.submit();
+// };
+
+
+
+var xhr = new XMLHttpRequest();
 const postForm = value => {
-    var form = document.createElement('form');
-    var request = document.createElement('input');
- 
-    form.method = 'POST';
-    form.action = '';
- 
-    request.type = 'hidden'; //入力フォームが表示されないように
-    request.name = 'text';
-    request.value = value;
- 
-    form.appendChild(request);
-    document.body.appendChild(form);
- 
-    form.submit();
+    
+     
+    xhr.open('POST', 'response');
+    xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');
+    
+    // xhr.send( 'mode-1' );
+    // xhr.send( compTextArray );
+    // xhr.send( '僕は大人になったらペンギンを飼いたい, 僕は大人になったらアザラシを飼いたい' );
+    xhr.send( '僕は大人になったらペンギンを飼いたい' );
+    
+    xhr.onreadystatechange = function() {
+     
+        if(xhr.readyState === 4 && xhr.status === 200) {
+     
+            // console.log( xhr.responseText );
+            console.log( xhr.response );
+          
+        }
+    }
+
 };
 
-const timer = setInterval(function(){postForm('hoge')},2000);
+const timer = setInterval(function(){postForm('hoge')},5000);
+
+
+(function(){
+    const log = console.log;
+    console.log = function(...args){
+      log(...args);
+      const li = document.createElement('li');
+      li.innerText = args[0];
+      document.getElementById('out').appendChild(li);
+    }
+  })()
