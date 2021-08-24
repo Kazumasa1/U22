@@ -6,6 +6,7 @@ const resultDiv = document.querySelector('#result-div');
 
 let SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
 let recognition = new SpeechRecognition();
+var xhr = new XMLHttpRequest();
 
 recognition.lang = 'ja-JP';
 recognition.interimResults = true;
@@ -32,6 +33,50 @@ recognition.onresult = (event) => {
     resultDiv.innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</i>';
 
 }
+const postForm = value => {
+
+    let json_to_textpair = {
+        'text1': compTextArray[0],
+        'text2': '僕は大人になったらペンギンを飼いたい'
+    };
+
+    let json_to_textpair2 = [
+        'konntya-',
+        'wanbanko'
+    ];
+    
+
+    // json_to_textpair = JSON.parse(json_to_textpair);
+
+    console.log(compTextArray[0]);
+    
+    
+    console.log(json_to_textpair);
+    // console.log(json_to_textpair[1]);
+    console.log(json_to_textpair["text1"]);
+    json_to_textpair = JSON.stringify(json_to_textpair);
+     
+    xhr.open('POST', 'response');
+    xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');
+    
+    // xhr.send( 'mode-1' );
+    xhr.send( json_to_textpair2 );
+    // xhr.send( json_to_textpair );
+    // xhr.send( compTextArray );
+    // xhr.send( '僕は大人になったらペンギンを飼いたい, 僕は大人になったらアザラシを飼いたい' );
+    // xhr.send( '僕は大人になったらペンギンを飼いたい' );
+    
+    xhr.onreadystatechange = function() {
+     
+        if(xhr.readyState === 4 && xhr.status === 200) {
+     
+            // console.log( xhr.responseText );
+            console.log( xhr.response );
+          
+        }
+    }
+
+};
 
 function start(){
 
@@ -110,11 +155,13 @@ text.addEventListener("change", function (event) {
         }
         console.log(compTextArray);
         console.log(compTextArray[1]);
+
+        const timer = setInterval(function(){postForm('hoge')},5000);
     }
 });
 
 
-
+const timer = setInterval(function(){postForm('hoge')},5000);
 // setTimeout(textAdd, 40000);
 
 
@@ -193,31 +240,41 @@ function textAdd(){
 
 
 
-var xhr = new XMLHttpRequest();
-const postForm = value => {
+console.log(compTextArray[0]);
+console.log(json_to_textpair);
+
+// var xhr = new XMLHttpRequest();
+// const postForm = value => {
     
-     
-    xhr.open('POST', 'response');
-    xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');
+//     let json_to_textpair = [{
+//         'text1': compTextArray[0],
+//         'text2': '僕は大人になったらペンギンを飼いたい'
+//     }];
     
-    // xhr.send( 'mode-1' );
-    // xhr.send( compTextArray );
-    // xhr.send( '僕は大人になったらペンギンを飼いたい, 僕は大人になったらアザラシを飼いたい' );
-    xhr.send( '僕は大人になったらペンギンを飼いたい' );
+//     json_to_textpair = JSON.stringify(json_to_textpair);
+     
+//     xhr.open('POST', 'response');
+//     xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');
     
-    xhr.onreadystatechange = function() {
+//     // xhr.send( 'mode-1' );
+//     xhr.send( json_to_textpair );
+//     // xhr.send( compTextArray );
+//     // xhr.send( '僕は大人になったらペンギンを飼いたい, 僕は大人になったらアザラシを飼いたい' );
+//     // xhr.send( '僕は大人になったらペンギンを飼いたい' );
+    
+//     xhr.onreadystatechange = function() {
      
-        if(xhr.readyState === 4 && xhr.status === 200) {
+//         if(xhr.readyState === 4 && xhr.status === 200) {
      
-            // console.log( xhr.responseText );
-            console.log( xhr.response );
+//             // console.log( xhr.responseText );
+//             console.log( xhr.response );
           
-        }
-    }
+//         }
+//     }
 
-};
+// };
 
-const timer = setInterval(function(){postForm('hoge')},5000);
+// const timer = setInterval(function(){postForm('hoge')},5000);
 
 
 (function(){
