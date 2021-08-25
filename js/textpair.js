@@ -22,7 +22,13 @@ const URL = `https://labs.goo.ne.jp/api/textpair`;
 // const OUTPU_TYPE = `katakana`; //or `hiragana`
 
 
-let api_data = "";
+// 読み込んだ過去の会議のテキストを格納
+let old_meeting_text = "";
+// 読み込んだ新しい会議のテキストを格納
+let new_meeting_text = "";
+
+// 類似度APIの値をmain.jsに返す値を格納
+let respond_api = "";
 
 let options = {
     method: 'post',
@@ -34,8 +40,8 @@ let options = {
     data: {
         app_id: APIKEY,
         request_id: 'u22',
-        text1: api_data,
-        text2: "僕は大人になったらアザラシを飼いたい"
+        text1: old_meeting_text,
+        text2: new_meeting_text
     }
 };
 
@@ -43,8 +49,7 @@ const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = http.createServer(RouteSetting);
-var data = [];
-// var data = '';
+let data = [];
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
@@ -85,9 +90,9 @@ server.listen(port, hostname, () => {
             //     console.log('err');
             //     });
             axios(options).then((res) => {
-                console.log(api_data);
+                // console.log(api_data);
                 console.log(res.data);
-                console.log('kontiwa');
+                // console.log('kontiwa');
                 // console.log(api_data);
                 // api_data = res.data;
                 
@@ -127,12 +132,18 @@ server.listen(port, hostname, () => {
 
                         
                         // data = JSON.stringify(data);
-                        data = data.split(',');
+                        data = String(data);
+                        data = data.split(',,');
                         console.log(data);
                         // data = JSON.parse(data);
                         // data = JSON.stringify(data);
-                        
+                        console.log('data[0]');
+                        console.log(data[0]);
+                        console.log('data[1]');
                         console.log(data[1]);
+
+                        old_meeting_text = data[0];
+                        new_meeting_text = data[1];
                         // console.log(data["text1"]);
                         // console.log(data["text1"][0]);
                         // console.log('dodaro');
@@ -170,10 +181,30 @@ server.listen(port, hostname, () => {
                             data: {
                                 app_id: APIKEY,
                                 request_id: 'u22',
-                                text1: api_data,
-                                text2: "僕は大人になったらアザラシを飼いたい"
+                                text1: old_meeting_text,
+                                text2: new_meeting_text
                             }
                         };
+
+                        axios(options).then((res) => {
+                            // console.log(api_data);
+                            console.log(res.data);
+
+                            respond_api = res.data;
+                            // console.log(api_data);
+                            // api_data = res.data;
+                            
+                            // console.log(api_data);
+                            // api_data = String(api_data);
+                            // api_data = api_data.toString();
+                            // api_data = JSON.stringify(api_data);
+                            // console.log(api_data);
+                        }).catch((err) => {
+                            // console.log(err);
+                            console.log('err');
+                        });
+
+
                     })
                     // if ( data = 'mode-1') {
                     //     console.log('mode-1_ok');
@@ -210,7 +241,9 @@ server.listen(port, hostname, () => {
                             
                         default:
                             res.writeHead(200, {'Content-Type': 'text/plain'});
-                            res.write(api_data)
+                            // respond_api = String(respond_api);
+                            respond_api = JSON.stringify(respond_api);
+                            res.write(respond_api)
                             res.end();
                             // res.end('お探しのページは見つかりません。');
                             break;

@@ -44,6 +44,11 @@ const postForm = value => {
         'konntya-',
         'wanbanko'
     ];
+
+    let json_to_textpair3 = [
+        compTextArray[0] + ',',
+        compTextArray[1] + ','
+    ];
     
 
     // json_to_textpair = JSON.parse(json_to_textpair);
@@ -60,7 +65,8 @@ const postForm = value => {
     xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');
     
     // xhr.send( 'mode-1' );
-    xhr.send( json_to_textpair2 );
+    xhr.send( json_to_textpair3 );
+    // xhr.send( json_to_textpair2 );
     // xhr.send( json_to_textpair );
     // xhr.send( compTextArray );
     // xhr.send( '僕は大人になったらペンギンを飼いたい, 僕は大人になったらアザラシを飼いたい' );
