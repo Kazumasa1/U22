@@ -143,18 +143,8 @@ text.addEventListener("change", function (event) {
             console.log('false');
             postForm();
         }
-        // console.log(compTextArray);
-        // console.log(compTextArray[1]);
-
-        // postForm();
-        // setInterval(postForm(),1000);
-        // const timer = setInterval(function(){postForm('hoge')},5000);
     }
 });
-
-
-// const timer = setInterval(function(){postForm('hoge')},5000);
-// setTimeout(textAdd, 40000);
 
 
 function textAdd(){
@@ -165,108 +155,6 @@ function textAdd(){
     x.style.color = 'red';
     x.appendChild(text1);
 }
-
-
-// axios(options)
-//     .then((res) => {
-//         console.log(res.data);
-//     })
-//     .catch((err) => {
-//         console.log(err);
-// });
-
-// toNodejs = {
-//     text1: compTextArray[0],
-//     text2: compTextArray[1]
-// };
-
-// import { textpair } from "./textpair.js";
-// let inTextpair = require('./textpair.js');
-
-// inTextpair();
-
-// var f = require('./textpair.js');
-
-
-
-// function postForm(value) {
- 
-//     var form = document.createElement('form');
-//     var request = document.createElement('input');
- 
-//     form.method = 'POST';
-//     form.action = '';
- 
-//     request.type = 'hidden'; //入力フォームが表示されないように
-//     request.name = 'text';
-//     request.value = value;
- 
-//     form.appendChild(request);
-//     document.body.appendChild(form);
- 
-//     form.submit();
- 
-// }
-
-
-// setTimeout();
-// postForm('hello world!');
-
-
-// const postForm = value => {
-//     var form = document.createElement('form');
-//     var request = document.createElement('input');
- 
-//     form.method = 'POST';
-//     form.action = '';
- 
-//     request.type = 'hidden'; //入力フォームが表示されないように
-//     request.name = 'text';
-//     request.value = value;
- 
-//     form.appendChild(request);
-//     document.body.appendChild(form);
- 
-//     form.submit();
-// };
-
-
-
-// console.log(compTextArray[0]);
-// console.log(json_to_textpair);
-
-// var xhr = new XMLHttpRequest();
-// const postForm = value => {
-    
-//     let json_to_textpair = [{
-//         'text1': compTextArray[0],
-//         'text2': '僕は大人になったらペンギンを飼いたい'
-//     }];
-    
-//     json_to_textpair = JSON.stringify(json_to_textpair);
-     
-//     xhr.open('POST', 'response');
-//     xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');
-    
-//     // xhr.send( 'mode-1' );
-//     xhr.send( json_to_textpair );
-//     // xhr.send( compTextArray );
-//     // xhr.send( '僕は大人になったらペンギンを飼いたい, 僕は大人になったらアザラシを飼いたい' );
-//     // xhr.send( '僕は大人になったらペンギンを飼いたい' );
-    
-//     xhr.onreadystatechange = function() {
-     
-//         if(xhr.readyState === 4 && xhr.status === 200) {
-     
-//             // console.log( xhr.responseText );
-//             console.log( xhr.response );
-          
-//         }
-//     }
-
-// };
-
-// const timer = setInterval(function(){postForm('hoge')},5000);
 
 
 (function(){
