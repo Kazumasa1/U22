@@ -16,6 +16,8 @@ let finalTranscript = '';
 // let toTextFileArray = '';
 let toTextFileArray = [];
 
+const COMP_TEXT_LEN = 5;
+
 recognition.onresult = (event) => {
     let interimTranscript = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -23,9 +25,14 @@ recognition.onresult = (event) => {
     if (event.results[i].isFinal) {
         // toTextFileArray += transcript;
         // toTextFileArray += ',';
-        // console.log(toTextFileArray);
         toTextFileArray.push(transcript);
+        console.log(toTextFileArray);
+        // console.log(toTextFileArray[0]);
         finalTranscript += transcript += '<br>';
+
+        if (toTextFileArray.length >= COMP_TEXT_LEN) {
+            
+        }
     } else {
         interimTranscript = transcript;
     }
@@ -35,42 +42,17 @@ recognition.onresult = (event) => {
 }
 const postForm = value => {
 
-    let json_to_textpair = {
-        'text1': compTextArray[0],
-        'text2': '僕は大人になったらペンギンを飼いたい'
-    };
-
-    let json_to_textpair2 = [
-        'konntya-',
-        'wanbanko'
-    ];
-
-    let json_to_textpair3 = [
+    let json_to_textpair = [
         compTextArray[0] + ',',
         compTextArray[1] + ','
     ];
     
-
-    // json_to_textpair = JSON.parse(json_to_textpair);
-
-    console.log(compTextArray[0]);
-    
-    
-    console.log(json_to_textpair);
-    // console.log(json_to_textpair[1]);
-    console.log(json_to_textpair["text1"]);
-    json_to_textpair = JSON.stringify(json_to_textpair);
      
     xhr.open('POST', 'response');
     xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');
     
-    // xhr.send( 'mode-1' );
-    xhr.send( json_to_textpair3 );
-    // xhr.send( json_to_textpair2 );
-    // xhr.send( json_to_textpair );
-    // xhr.send( compTextArray );
-    // xhr.send( '僕は大人になったらペンギンを飼いたい, 僕は大人になったらアザラシを飼いたい' );
-    // xhr.send( '僕は大人になったらペンギンを飼いたい' );
+
+    xhr.send( json_to_textpair );
     
     xhr.onreadystatechange = function() {
      
@@ -113,7 +95,6 @@ let inputTextFileArray = [];
 let compTextArray = [];
 let TextArray_len = 0;
 
-const COMP_TEXT_LEN = 5;
 
 let slice_st = 0;
 let slice_ed = 0;
@@ -143,6 +124,7 @@ text.addEventListener("change", function (event) {
             compTextArray += inputTextFileArray.slice(slice_st, slice_ed);
             console.log(compTextArray);
             console.log('true');
+            postForm();
         }else {
             // 選択されたテキストファイルの文字列の数が比較文字数より多いときの処理
             slice_ed = COMP_TEXT_LEN;
@@ -151,6 +133,7 @@ text.addEventListener("change", function (event) {
             let compTextArray_len = Math.floor(TextArray_len / COMP_TEXT_LEN);
             for (let i = 0; i <=  compTextArray_len; i++) {
 
+                itijiArray = [];
                 // compTextArray.push(inputTextFileArray.slice(slice_st, slice_ed));
                 itijiArray += inputTextFileArray.slice(slice_st, slice_ed);
                 compTextArray.push(itijiArray);
@@ -158,16 +141,19 @@ text.addEventListener("change", function (event) {
                 slice_ed += COMP_TEXT_LEN;
             }
             console.log('false');
+            postForm();
         }
-        console.log(compTextArray);
-        console.log(compTextArray[1]);
+        // console.log(compTextArray);
+        // console.log(compTextArray[1]);
 
-        const timer = setInterval(function(){postForm('hoge')},5000);
+        // postForm();
+        // setInterval(postForm(),1000);
+        // const timer = setInterval(function(){postForm('hoge')},5000);
     }
 });
 
 
-const timer = setInterval(function(){postForm('hoge')},5000);
+// const timer = setInterval(function(){postForm('hoge')},5000);
 // setTimeout(textAdd, 40000);
 
 
@@ -246,8 +232,8 @@ function textAdd(){
 
 
 
-console.log(compTextArray[0]);
-console.log(json_to_textpair);
+// console.log(compTextArray[0]);
+// console.log(json_to_textpair);
 
 // var xhr = new XMLHttpRequest();
 // const postForm = value => {

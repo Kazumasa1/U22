@@ -89,22 +89,22 @@ server.listen(port, hostname, () => {
             //     // console.log(err);
             //     console.log('err');
             //     });
-            axios(options).then((res) => {
-                // console.log(api_data);
-                console.log(res.data);
-                // console.log('kontiwa');
-                // console.log(api_data);
-                // api_data = res.data;
+            // axios(options).then((res) => {
+            //     // console.log(api_data);
+            //     console.log(res.data);
+            //     // console.log('kontiwa');
+            //     // console.log(api_data);
+            //     // api_data = res.data;
                 
-                // console.log(api_data);
-                // api_data = String(api_data);
-                // api_data = api_data.toString();
-                // api_data = JSON.stringify(api_data);
-                // console.log(api_data);
-            }).catch((err) => {
-                // console.log(err);
-                console.log('err');
-            });
+            //     // console.log(api_data);
+            //     // api_data = String(api_data);
+            //     // api_data = api_data.toString();
+            //     // api_data = JSON.stringify(api_data);
+            //     // console.log(api_data);
+            // }).catch((err) => {
+            //     // console.log(err);
+            //     console.log('err');
+            // });
         });
         
         
@@ -129,18 +129,21 @@ server.listen(port, hostname, () => {
                         
                         // data = new Set(data);
                         // Array.from(data);
-
+                        
                         
                         // data = JSON.stringify(data);
                         data = String(data);
                         data = data.split(',,');
+                        // console.log('(-m-)');
                         console.log(data);
+                        console.log(data.length);
+                        // console.log('(-m-)');
                         // data = JSON.parse(data);
                         // data = JSON.stringify(data);
-                        console.log('data[0]');
-                        console.log(data[0]);
-                        console.log('data[1]');
-                        console.log(data[1]);
+                        // console.log('data[0]');
+                        // console.log(data[0]);
+                        // console.log('data[1]');
+                        // console.log(data[1]);
 
                         old_meeting_text = data[0];
                         new_meeting_text = data[1];
@@ -188,7 +191,7 @@ server.listen(port, hostname, () => {
 
                         axios(options).then((res) => {
                             // console.log(api_data);
-                            console.log(res.data);
+                            // console.log(res.data);
 
                             respond_api = res.data;
                             // console.log(api_data);
@@ -197,11 +200,11 @@ server.listen(port, hostname, () => {
                             // console.log(api_data);
                             // api_data = String(api_data);
                             // api_data = api_data.toString();
-                            // api_data = JSON.stringify(api_data);
-                            // console.log(api_data);
+                            respond_api = JSON.stringify(respond_api);
+                            console.log(respond_api);
                         }).catch((err) => {
                             // console.log(err);
-                            console.log('err');
+                            // console.log('err');
                         });
 
 
@@ -241,8 +244,10 @@ server.listen(port, hostname, () => {
                             
                         default:
                             res.writeHead(200, {'Content-Type': 'text/plain'});
-                            // respond_api = String(respond_api);
+                            
                             respond_api = JSON.stringify(respond_api);
+                            respond_api = String(respond_api);
+                            // console.log(respond_api);
                             res.write(respond_api)
                             res.end();
                             // res.end('お探しのページは見つかりません。');
