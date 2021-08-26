@@ -28,6 +28,8 @@ let new_text_num = 0;
 
 let post_count = 0;
 
+let toAPI_text = [];
+
 
 // let json_to_textpair = [
 //         compTextArray[old_text_num] + ',',
@@ -43,6 +45,7 @@ recognition.onresult = (event) => {
         talk_count++;
         toTextFileArray += transcript;
         toTextFileArray += ',';
+        toAPI_text += (transcript + ',');
         // console.log(toTextFileArray);
         // console.log(toTextFileArray[0]);
         finalTranscript += transcript += '<br>';
@@ -52,7 +55,10 @@ recognition.onresult = (event) => {
             talk_count = 0;
             old_text_num = 0;
             post_count = 0;
-            new_meeting_text_array.push(toTextFileArray);
+            new_meeting_text_array[0] = toAPI_text;
+            toAPI_text = [];
+            // new_meeting_text_array.push(toTextFileArray);
+            console.log(new_meeting_text_array);
             // console.log("compTextArray:"+compTextArray.length);
             // console.log(new_meeting_text_array[0]);
             // for (let j = 0; j < Number(compTextArray.length); j++){
@@ -105,7 +111,7 @@ async function postForm() {
     
     let json_to_textpair = [
         compTextArray[old_text_num] + ',',
-        new_meeting_text_array[new_text_num] + ','
+        new_meeting_text_array
     ];
     
      
