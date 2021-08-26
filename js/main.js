@@ -1,8 +1,24 @@
 'use strict'
 
+// var x = document.getElementById("checker-text");
+// x.style.color = 'red';
+// x.appendChild(alart_text);
+// const li = document.createElement('li');
+// li.innerText = args[0];
+// document.getElementById('out').appendChild(li);
+
 const startBtn = document.querySelector('#start-btn');
 // const stopBtn = document.querySelector('#stop-btn');
+// const resultDiv = document.getElementById('#result-div');
 const resultDiv = document.querySelector('#result-div');
+
+// const resultDiv1 = document.createElement("div");
+// const resultDiv = document.createElement("div");
+
+// const result_li = document.createElement("li");
+
+// const resultSpan1= document.createElement("span");
+
 
 let SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
 let recognition = new SpeechRecognition();
@@ -30,64 +46,111 @@ let post_count = 0;
 
 let toAPI_text = [];
 
+let phrase_count = 1;
 
 // let json_to_textpair = [
-//         compTextArray[old_text_num] + ',',
-//         new_meeting_text_array[new_text_num] + ','
-//     ];
-
+    //         compTextArray[old_text_num] + ',',
+    //         new_meeting_text_array[new_text_num] + ','
+    //     ];
+    
 recognition.onresult = (event) => {
     let interimTranscript = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
-    let transcript = event.results[i][0].transcript;
-    // console.log("load");
-    if (event.results[i].isFinal) {
-        talk_count++;
-        toTextFileArray += transcript;
-        toTextFileArray += ',';
-        toAPI_text += (transcript + ',');
-        // console.log(toTextFileArray);
-        // console.log(toTextFileArray[0]);
-        finalTranscript += transcript += '<br>';
-        // console.log(talk_count);
-        
-        if (talk_count >= COMP_TEXT_LEN) {
-            talk_count = 0;
-            old_text_num = 0;
-            post_count = 0;
-            new_meeting_text_array[0] = toAPI_text;
-            toAPI_text = [];
-            // new_meeting_text_array.push(toTextFileArray);
-            console.log(new_meeting_text_array);
-            // console.log("compTextArray:"+compTextArray.length);
-            // console.log(new_meeting_text_array[0]);
-            // for (let j = 0; j < Number(compTextArray.length); j++){
-            // // for (let j = compTextArray.length; j < 0; j--){
+        let transcript = event.results[i][0].transcript;
+        // console.log("load");
+        if (event.results[i].isFinal) {
+            
+            // console.log(talk_count);
+            toTextFileArray += transcript;
+            toTextFileArray += ',';
+            toAPI_text += (transcript + ',');
+            // console.log(toTextFileArray);
+            // console.log(toTextFileArray[0]);
+            finalTranscript += transcript += '<br>';
+            // console.log(talk_count);
+            
+            if (talk_count >= COMP_TEXT_LEN) {
                 
-            //     setInterval(postForm,250);
-            //     // postForm();
-            //     // console.log(old_text_num);
-            //     old_text_num++;
-
+                talk_count = 0;
+                old_text_num = 0;
+                post_count = 0;
+                new_meeting_text_array[0] = toAPI_text;
+                toAPI_text = [];
+                // new_meeting_text_array.push(toTextFileArray);
+                // console.log(new_meeting_text_array);
+                // console.log("compTextArray:"+compTextArray.length);
+                // console.log(new_meeting_text_array[0]);
+                // for (let j = 0; j < Number(compTextArray.length); j++){
+                    // // for (let j = compTextArray.length; j < 0; j--){
+                        
+                        //     setInterval(postForm,250);
+                        //     // postForm();
+                        //     // console.log(old_text_num);
+                        //     old_text_num++;
+                        
                 const postFormInter = setInterval(() =>{
                     postForm();
                     if (post_count >= compTextArray.length) {
                         clearInterval(postFormInter);
                     }
                 },250);
-            // }
-            // new_text_num++;
-            // console.log("if-test");
-            // console.log(compTextArray.length);
-        }
-        // console.log("test");
-        
-        } else {
+                // phrase_count++;
+                // eval('const resultDiv' + phrase_count + ' = document.createElement("div");');
+            }else {
+                talk_count++;
+            }
+                        // }
+                        // new_text_num++;
+                        // console.log("if-test");
+                        // console.log(compTextArray.length);
+                        // eval("document.getElementById('result-div').appendChild(resultDiv);");
+                        
+                //             eval("const resultSpan" + phrase_count + "= document.createElement(\"span\");");
+                //             console.log("wertyui");
+                // }else if (talk_count = COMP_TEXT_LEN - 1) {
+        }else {
             interimTranscript = transcript;
         }
     }  
-    resultDiv.innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</i>';
 
+        resultDiv.innerHTML = finalTranscript + '<i style=\"color:#ddd;\">' + interimTranscript + '</i>';
+        // result_li.innerText = finalTranscript;
+        
+        
+        // eval('const resultDiv' + comp_count + "= document.querySelector('#result-div');");
+        // eval('const resultDiv' + comp_count + "= document.querySelector('#result-div');");
+        
+        // eval("resultDiv.innerHTML = finalTranscript + '<i style=\"color:#ddd;\">' + interimTranscript + '</i>';");
+        // eval("resultDiv" + phrase_count + ".innerHTML = '<span class=\"phrase" + phrase_count + "\">' + finalTranscript + '</span>' + '<i style=\"color:#ddd;\">' + interimTranscript + '</i>';");
+            // eval("resultDiv.innerHTML = '<span class=\"phrase" + phrase_count + "\">' + finalTranscript + '</span>' + '<i style=\"color:#ddd;\">' + interimTranscript + '</i>';");
+            // document.getElementById('result-div').appendChild(resultDiv);
+            // eval("resultSpan" + phrase_count + ".innerText = '<span class=\"phrase" + phrase_count + "\">' + finalTranscript + '</span>' + '<i style=\"color:#ddd;\">' + interimTranscript + '</i>';");
+            // eval("document.getElementById('result-div').appendChild(resultDiv" + phrase_count +");");
+
+            // resultSpan1.innerHTML = "test";
+
+            // eval("resultDiv" + comp_count + ".innerHTML = finalTranscript + '<i style=\"color:#ddd;\">' + interimTranscript + '</i>';");
+            // eval("document.getElementById('').appendChild(resultDiv);");
+
+            // x.appendChild(alart_text);
+
+            // eval("resultSpan" + comp_count + ".innerHTML = finalTranscript;");
+            // eval("resultSpan" + comp_count + ".innerHTML = finalTranscript;");
+            // eval("resultSpan" + comp_count + ".style.color = 'red';");
+            // eval("resultSpan" + comp_count + ".appendChild(resultSpan" + comp_count + ");");
+
+
+            // alart_text.innerHTML = "前にもこの話はしました！";
+            // var x = document.getElementById("checker-text");
+            // x.style.color = 'red';
+            // x.appendChild(alart_text);
+            // const li = document.createElement('li');
+            // li.innerText = args[0];
+            // document.getElementById('out').appendChild(li);
+
+            
+
+    
 }
 
 // function admain() {
@@ -257,9 +320,22 @@ function textAdd(){
 (function(){
     const log = console.log;
     console.log = function(...args){
-      log(...args);
-      const li = document.createElement('li');
-      li.innerText = args[0];
-      document.getElementById('out').appendChild(li);
+        log(...args);
+        // const alart_text = document.createElement("span");
+        const alart_text = document.getElementById('result-div');
+
+        if (args[0] = "bad_speech") {
+            alart_text.style.color = 'red';
+        } else {
+            
+            alart_text.style.color = 'blue';
+        }
+        // alart_text.innerHTML = "前にもこの話はしました！";
+        // var x = document.getElementById("checker-text");
+        // x.style.color = 'red';
+        // x.appendChild(alart_text);
+        const li = document.createElement('li');
+        li.innerText = args[0];
+        document.getElementById('out').appendChild(li);
     }
   })()
