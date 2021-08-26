@@ -21,7 +21,12 @@ let old_meeting_text = "";
 let new_meeting_text = "";
 
 // 類似度APIの値をmain.jsに返す値を格納
-let respond_api = "";
+let respond_api = [];
+
+let respond_api_max;
+
+let respond_api_judge = "";
+// let respond_api = "";
 
 let options = {
     method: 'post',
@@ -46,8 +51,9 @@ let data = [];
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
-    
+    respond_api = [];
 });
+
         
 
 function RouteSetting(req, res) {
@@ -85,21 +91,46 @@ function RouteSetting(req, res) {
             // console.log(api_data);
             // console.log(res.data);
 
-            respond_api = res.data;
+            // respond_api = res.data;
             // console.log(api_data);
             // api_data = res.data;
             
             // console.log(api_data);
             // api_data = String(api_data);
             // api_data = api_data.toString();
-            respond_api = JSON.stringify(respond_api);
+            // respond_api = JSON.stringify(respond_api);
+
+            console.log(res.data);
+            // console.log(res.data['score']);
+
+            // respond_api[respond_api_array_num] = res.data['score'];
+
+            // respond_api = res.data['score'];
+            // respond_api += res.data['score'] + ',';
+            respond_api.push(Number(res.data['score']));
             console.log(respond_api);
+            respond_api_max = respond_api.reduce(function(a, b) {
+                return Math.max(a, b);
+            });
+            console.log(respond_api_max);
+            if (0.7 < respond_api_max) {
+                respond_api = [];
+                respond_api_judge = "bad_speech";
+                console.log("!!!!!");
+            } else {
+                respond_api = [];
+                respond_api_judge = "good_speech";
+                console.log("(-_-)");
+            }
+
+            // respond_api_array_num++;
+
+            // respond_api += res.data['score'] + ',';
         }).catch((err) => {
             // console.log(err);
-            // console.log('err');
+            console.log('err');
+            // respond_api = [];
         });
-
-
     })
     
     
@@ -134,12 +165,19 @@ function RouteSetting(req, res) {
         default:
             res.writeHead(200, {'Content-Type': 'text/plain'});
             
-            respond_api = JSON.stringify(respond_api);
-            respond_api = String(respond_api);
+            // respond_api = JSON.stringify(respond_api);
             // console.log(respond_api);
-            res.write(respond_api)
+            // respond_api = String(respond_api);
+            // console.log(respond_api);
+            res.write(String(respond_api_judge));
+            // res.write();
+            // res.write(String(res.data));
+            // res.write(String(res.data));
+            // res.write(String(res.data));
+            // res.write(respond_api)
             res.end();
             // res.end('お探しのページは見つかりません。');
+            // respond_api = "";
             break;
-    }
-}                                                                   
+        }
+}
