@@ -28,6 +28,7 @@ h1 {
     /* background-color: crimson; */
     margin: 92px 10px 10px 10px;
     position: absolute;
+    line-height: 2.5em
 }
 #talk-judge {
     background-color: #fff;
@@ -46,6 +47,7 @@ h1 {
     /* background-color: crimson; */
     margin: 92px 10px 10px 10px;
     position: absolute;
+    line-height: 2.5em
 }
 #button-line {
     /* background-color: rgb(207, 197, 170); */
@@ -80,6 +82,8 @@ h1 {
     height: 500px;
     border: 1px solid #000000;
     margin-bottom: 40px;
+    overflow: auto;
+    /* display: inline-block; */
 }
 .tab {
     background-color: #fff;
@@ -105,38 +109,6 @@ h1 {
     left: 0;
     margin: 5px 0 0 10px;
 }
-#checker {
-    background-color: #fff;
-
-    width: 100px;
-    height: 48px;
-    /* margin-left: 100px; */
-    display: inline-block;
-    position: relative;
-}
-#checker p {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: 16px 0 0 10px;
-}
-#log {
-    background-color: #fff;
-    width: 100px;
-    height: 48px;
-    display: inline-block;
-    position: relative;
-}
-#log p {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: 16px 0 0 10px;
-}
-.checker-area {
-    margin-left: 615px;
+#result-div {
+    margin: 10px;
 }
