@@ -12,6 +12,8 @@ const startBtn = document.querySelector('#start-btn');
 // const resultDiv = document.getElementById('#result-div');
 const resultDiv = document.querySelector('#result-div');
 
+const alart_text = document.getElementById('result-div');
+
 // const resultDiv1 = document.createElement("div");
 // const resultDiv = document.createElement("div");
 
@@ -188,9 +190,21 @@ async function postForm() {
      
         if(xhr.readyState === 4 && xhr.status === 200) {
      
+            let respond_api_data = String(xhr.responseText);
             // console.log( xhr.responseText );
-            console.log( xhr.response );
 
+            // console.log( xhr.response );
+
+            
+
+            if (respond_api_data == "bad_speech") {
+                alart_text.style.color = 'red';
+                console.log("bad");
+            } else {
+                
+                console.log("good");
+                alart_text.style.color = 'black';
+            }
             
         }
     }
@@ -317,25 +331,25 @@ function textAdd(){
 }
 
 
-(function(){
-    const log = console.log;
-    console.log = function(...args){
-        log(...args);
-        // const alart_text = document.createElement("span");
-        const alart_text = document.getElementById('result-div');
+// (function(){
+//     const log = console.log;
+//     console.log = function(...args){
+//         log(...args);
+//         // const alart_text = document.createElement("span");
+//         // const alart_text = document.getElementById('result-div');
 
-        if (args[0] = "bad_speech") {
-            alart_text.style.color = 'red';
-        } else {
+//         // if (args[0] = "bad_speech") {
+//         //     alart_text.style.color = 'red';
+//         // } else {
             
-            alart_text.style.color = 'blue';
-        }
-        // alart_text.innerHTML = "前にもこの話はしました！";
-        // var x = document.getElementById("checker-text");
-        // x.style.color = 'red';
-        // x.appendChild(alart_text);
-        const li = document.createElement('li');
-        li.innerText = args[0];
-        document.getElementById('out').appendChild(li);
-    }
-  })()
+//         //     alart_text.style.color = 'blue';
+//         // }
+//         // alart_text.innerHTML = "前にもこの話はしました！";
+//         // var x = document.getElementById("checker-text");
+//         // x.style.color = 'red';
+//         // x.appendChild(alart_text);
+//         // const li = document.createElement('li');
+//         // li.innerText = args[0];
+//         // document.getElementById('out').appendChild(li);
+//     }
+//   })()
