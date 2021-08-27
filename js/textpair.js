@@ -16,9 +16,9 @@ const URL = `https://labs.goo.ne.jp/api/textpair`;
 
 
 // 読み込んだ過去の会議のテキストを格納
-let old_meeting_text = "";
+let past_meeting_phrase = "";
 // 読み込んだ新しい会議のテキストを格納
-let new_meeting_text = "";
+let new_meeting_phrase = "";
 
 // 類似度APIの値をmain.jsに返す値を格納
 let respond_api = [];
@@ -26,6 +26,7 @@ let respond_api = [];
 let respond_api_max;
 
 let respond_api_judge = "";
+
 
 let options = {
     method: 'post',
@@ -37,8 +38,8 @@ let options = {
     data: {
         app_id: APIKEY,
         request_id: 'u22',
-        text1: old_meeting_text,
-        text2: new_meeting_text
+        text1: past_meeting_phrase,
+        text2: new_meeting_phrase
     }
 };
 
@@ -66,8 +67,8 @@ function RouteSetting(req, res) {
         data = String(data);
         data = data.split(',,');
 
-        old_meeting_text = data[0];
-        new_meeting_text = data[1];
+        past_meeting_phrase = data[0];
+        new_meeting_phrase = data[1];
 
         options = {
             method: 'post',
@@ -79,8 +80,8 @@ function RouteSetting(req, res) {
             data: {
                 app_id: APIKEY,
                 request_id: 'u22',
-                text1: old_meeting_text,
-                text2: new_meeting_text
+                text1: past_meeting_phrase,
+                text2: new_meeting_phrase
             }
         };
 
