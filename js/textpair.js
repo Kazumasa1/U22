@@ -66,6 +66,7 @@ function RouteSetting(req, res) {
         
         data = String(data);
         data = data.split(',,');
+        console.log(data);
 
         past_meeting_phrase = data[0];
         new_meeting_phrase = data[1];
@@ -87,6 +88,7 @@ function RouteSetting(req, res) {
 
         axios(options).then((res) => {
 
+            console.log(res.data);
             respond_api.push(Number(res.data['score']));
             respond_api_max = respond_api.reduce(function(a, b) {
                 return Math.max(a, b);
@@ -149,7 +151,7 @@ function RouteSetting(req, res) {
             
         default:
             res.writeHead(200, {'Content-Type': 'text/plain'});
-            // console.log(respond_api_judge);
+            console.log(respond_api_judge);
             res.write(String(respond_api_judge));
             res.end();
             break;
