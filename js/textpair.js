@@ -148,7 +148,7 @@ function RouteSetting(req, res) {
             
         default:
             res.writeHead(200, {'Content-Type': 'text/plain'});
-            console.log(respond_api_judge);
+            // console.log(respond_api_judge);
             res.write(String(respond_api_judge));
             res.end();
             break;
