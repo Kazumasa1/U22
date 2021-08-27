@@ -15,98 +15,121 @@ recognition.lang = 'ja-JP';
 recognition.interimResults = true;
 recognition.continuous = true;
 
-let recognition_status = "off";
 
-let finalTranscript = '';
-let toTextFileArray = [];
-let new_meeting_text_array = [];
 
-const COMP_TEXT_LEN = 5;
+let export_textfile = [];
 
-let compTextArray = [];
+// APIに送信する文節の数の設定
+// ↓ PHRASE_NUM = 5 の場合
+// 文章,文章,文章,文章,文章
+const PHRASE_NUM = 5;
 
+// 読み込んだ過去の会議の文字列を格納する配列
+let past_meeting_array = [];
+// 'past_meeting_array'に格納した文字列にアクセスするid
+let past_str_id = 0;
+
+// 現在、音声入力で入力されている回数
 let talk_count = 0;
+// サーバーにAPIのリクエストした回数
+let request_count = 0;
 
-let old_text_num = 0;
-
-let post_count = 0;
-
-let toAPI_text = [];
-
-let status_count = 0;
-
-let str_repeated_text = "";
+// サーバーにAPIのリクエストする音声入力した新しい文節を格納する
+let request_new_phrase = "";
 
 
 recognition.onresult = (event) => {
-    let interimTranscript = '';
+    
+    // result-divに表示する文字列を格納する
+    let resultDiv_phrase = '';
+    // 音声入力中にresult-divに表示する文字列を格納する
+    let resultDiv_phrase_loading = '';
+
+    // サーバーにリスエストする文節を一時保管する文字列
+    let add_new_str = "";
+
     for (let i = event.resultIndex; i < event.results.length; i++) {
         let transcript = event.results[i][0].transcript;
 
+        // 音声入力で会話の区切れがあるか？
         if (event.results[i].isFinal) {
             
-            toTextFileArray += transcript;
-            toTextFileArray += ',';
-            toAPI_text += (transcript + ',');
-            finalTranscript += transcript += '<br>';
+            export_textfile += (transcript + ',');
+            add_new_str += (transcript + ',');
+            resultDiv_phrase += transcript += '<br>';
             
-            if (talk_count >= COMP_TEXT_LEN) {
+            // 現在、音声入力されている文節の数が'PHRASE_NUM'で設定された数に等しい or 多いか？
+            if (talk_count >= PHRASE_NUM) {
                 
                 talk_count = 0;
-                old_text_num = 0;
-                post_count = 0;
-                new_meeting_text_array[0] = toAPI_text;
-                toAPI_text = [];
+                past_str_id = 0;
+                request_count = 0;
+                request_new_phrase = add_new_str;
+                add_new_str = "";
                        
-                const postFormInter = setInterval(() =>{
-                    postForm();
-                    if (post_count >= compTextArray.length) {
-                        clearInterval(postFormInter);
+                // サーバーにリクエストする関数を呼び出す関数
+                const requestAPI_inter = setInterval(() =>{
+
+                    requestAPI();
+
+                    // APIにリクエストした回数が過去の会議の文節の数と等しい or 多いか？
+                    if (request_count >= past_meeting_array.length) {
+                        
+                        clearInterval(requestAPI_inter);
                     }
                 },250);
             }else {
+
                 talk_count++;
             }
 
         }else {
-            interimTranscript = transcript;
+
+            resultDiv_phrase_loading = transcript;
         }
     }  
 
-        resultDiv.innerHTML = finalTranscript + '<i style=\"color:#ddd;\">' + interimTranscript + '</i>';
+        // 認識した音声を'result-div'に表示　かつ　音声入力中の内容を灰色で表示する
+        resultDiv.innerHTML = resultDiv_phrase + '<i style=\"color:#ddd;\">' + resultDiv_phrase_loading + '</i>';
     
 }
 
-function postForm() {
+// サーバーにAPIのリクエストを送信する関数
+function requestAPI() {
     
+    // APIで比較する文字列を格納する配列
     let json_to_textpair = [
-        compTextArray[old_text_num] + ',',
-        new_meeting_text_array
+        past_meeting_array[past_str_id] + ',',
+        request_new_phrase
     ];
     
-     
+    // サーバーに送るAPIのリクエスト情報 
     xhr.open('POST', 'response');
     xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');
-    
-    
     xhr.send( json_to_textpair );
-    
+
     xhr.onreadystatechange = function() {
      
         if(xhr.readyState === 4 && xhr.status === 200) {
      
+            // サーバーからのレスポンスを格納する変数
             let respond_api_data = String(xhr.responseText);
-            
+            // 重複の発生からの経過間隔
+            let status_count = 0;
 
+            // 重複が発生しているか？
             if (respond_api_data == "bad_speech") {
+
                 resultDiv.style.color = 'red';
                 meeting_status.innerHTML = "状態：以下の内容が重複しました！！！";
                 meeting_status.style.color = 'red';
-                repeated_text.innerHTML = String(new_meeting_text_array).replace(/,/g,'<br>');
+                repeated_text.innerHTML = String(request_new_phrase).replace(/,/g,'<br>');
+                // 重複が発生した状態を保持する間隔を設定する
+                status_count = past_meeting_array.length - 1;
 
-                status_count = compTextArray.length - 1;        
             } else {
                 
+                // 重複が発生してから'past_meeting_array.length - 1'単位経過したか？
                 if (status_count <= 0) {
                     
                     resultDiv.style.color = 'black';
@@ -114,16 +137,22 @@ function postForm() {
                     meeting_status.style.color = 'black';
                     repeated_text.innerHTML = '';
                     status_count = 0;
+
                 } else{
+
                     status_count--;
+
                 }
             }
-            
         }
     }
-    old_text_num++;
-    post_count++;
+
+    past_str_id++;
+    request_count++;
 }
+
+// 録音ボタンのステータス
+let recognition_status = "off";
 
 function start(){
 
@@ -140,32 +169,29 @@ function start(){
     }
 }
 
-function toTextFile(){
+// ファイルで書き出すボタンがクリックされたときの処理
+function exportTextFile(){
 
-    let blob = new Blob([toTextFileArray] ,{type:"text/plan"});
+    let blob = new Blob([export_textfile] ,{type:"text/plan"});
     let link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     let meeting_name = document.getElementById("meeting-title");
     link.download = meeting_name.value;
     link.click();
 
-
 }
 
-
+// ファイルを選択するフォームからファイルが読み込まれたときの処理
 const text = document.getElementById("text-file");
-let inputTextFileArray = [];
-let TextArray_len = 0;
-
-
-let slice_st = 0;
-let slice_ed = 0;
 
 //ダイアログでファイルが選択された時
 text.addEventListener("change", function (event) {
-
     
-    
+    let input_textfile = [];
+    // sliceメソッドで開始するid
+    let slice_st = 0;
+    // sliceメソッドで終了するid
+    let slice_ed = PHRASE_NUM;
     const file = event.target.files;
     
     //FileReaderの作成
@@ -175,29 +201,30 @@ text.addEventListener("change", function (event) {
     
     //読込終了後の処理
     reader.onload = function () {
-        //テキストエリアに表示する
-        inputTextFileArray += reader.result;
-        inputTextFileArray = inputTextFileArray.split(',');
-        TextArray_len = inputTextFileArray.length;
         
+        input_textfile += reader.result;
+        input_textfile = input_textfile.split(',');    
         
-        if(TextArray_len <=  COMP_TEXT_LEN) {
+        // 読み込まれた文章の文節数が'PHRASE_NUM'で設定された数より少ない or 等しいか？
+        if(input_textfile.length <=  PHRASE_NUM) {
             // 選択されたテキストファイルの文字列の数が比較文字数以下のときの処理
-            slice_ed = TextArray_len;
-            compTextArray += inputTextFileArray.slice(slice_st, slice_ed);
+
+            // 読み込まれたテキストファイルをそのまま代入する
+            past_meeting_array += input_textfile;
+
         }else {
             // 選択されたテキストファイルの文字列の数が比較文字数より多いときの処理
-            slice_ed = COMP_TEXT_LEN;
-            let itijiArray = [];
-            
-            let compTextArray_len = Math.floor(TextArray_len / COMP_TEXT_LEN);
-            for (let i = 0; i <=  compTextArray_len; i++) {
+
+            // 読み込まれたテキストファイルの文章を'PHRASE_NUM'で割って文節に分けた数
+            let past_meeting_array_len = Math.floor(input_textfile.length / PHRASE_NUM);
+
+            // 読み込まれたテキストファイルの文節数回ループ
+            for (let i = 0; i <=  past_meeting_array_len; i++) {
                 
-                itijiArray = [];
-                itijiArray += inputTextFileArray.slice(slice_st, slice_ed);
-                compTextArray.push(itijiArray);
+                past_meeting_array.push(input_textfile.slice(slice_st, slice_ed));
                 slice_st = slice_ed;
-                slice_ed += COMP_TEXT_LEN;
+                slice_ed += PHRASE_NUM;
+
             }
         }
     }
