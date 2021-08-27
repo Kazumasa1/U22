@@ -9,14 +9,14 @@ const recognition_btn_status = document.getElementById('recognition-btn');
 
 let SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
 let recognition = new SpeechRecognition();
-var xhr = new XMLHttpRequest();
+let xhr = new XMLHttpRequest();
 
 recognition.lang = 'ja-JP';
 recognition.interimResults = true;
 recognition.continuous = true;
 
 
-
+// ファイルで書き出す文章を格納する配列
 let export_textfile = [];
 
 // APIに送信する文節の数の設定
@@ -38,6 +38,10 @@ let request_count = 0;
 let request_new_phrase = "";
 
 
+
+
+
+// 音声入力中の処理
 recognition.onresult = (event) => {
     
     // result-divに表示する文字列を格納する
@@ -90,9 +94,13 @@ recognition.onresult = (event) => {
     }  
 
         // 認識した音声を'result-div'に表示　かつ　音声入力中の内容を灰色で表示する
-        resultDiv.innerHTML = resultDiv_phrase + '<i style=\"color:#ddd;\">' + resultDiv_phrase_loading + '</i>';
-    
+        resultDiv.innerHTML 
+            = resultDiv_phrase + '<i style=\"color:#ddd;\">' + resultDiv_phrase_loading + '</i>';   
 }
+
+
+
+
 
 // サーバーにAPIのリクエストを送信する関数
 function requestAPI() {
@@ -146,14 +154,17 @@ function requestAPI() {
             }
         }
     }
-
     past_str_id++;
     request_count++;
 }
 
+
+
+
+
 // 録音ボタンのステータス
 let recognition_status = "off";
-
+// 録音開始ボタンが押された時の関数
 function start(){
 
     if (recognition_status == "off") {
@@ -169,6 +180,10 @@ function start(){
     }
 }
 
+
+
+
+
 // ファイルで書き出すボタンがクリックされたときの処理
 function exportTextFile(){
 
@@ -181,10 +196,13 @@ function exportTextFile(){
 
 }
 
+
+
+
+
 // ファイルを選択するフォームからファイルが読み込まれたときの処理
 const text = document.getElementById("text-file");
-
-//ダイアログでファイルが選択された時
+//ダイアログでファイルが選択された時の関数
 text.addEventListener("change", function (event) {
     
     let input_textfile = [];
