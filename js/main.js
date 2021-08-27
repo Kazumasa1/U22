@@ -3,13 +3,9 @@
 const startBtn = document.querySelector('#start-btn');
 const resultDiv = document.querySelector('#result-div');
 
-const alart_text = document.getElementById('result-div');
-
 const meeting_status = document.getElementById('status');
 const repeated_text = document.getElementById('repeated-text');
-
-
-
+const recognition_btn_status = document.getElementById('recognition-btn');
 
 let SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
 let recognition = new SpeechRecognition();
@@ -18,6 +14,8 @@ var xhr = new XMLHttpRequest();
 recognition.lang = 'ja-JP';
 recognition.interimResults = true;
 recognition.continuous = true;
+
+let recognition_status = "off";
 
 let finalTranscript = '';
 let toTextFileArray = [];
@@ -30,13 +28,10 @@ let compTextArray = [];
 let talk_count = 0;
 
 let old_text_num = 0;
-let new_text_num = 0;
 
 let post_count = 0;
 
 let toAPI_text = [];
-
-let phrase_count = 1;
 
 let status_count = 0;
 
@@ -82,7 +77,7 @@ recognition.onresult = (event) => {
     
 }
 
-async function postForm() {
+function postForm() {
     
     let json_to_textpair = [
         compTextArray[old_text_num] + ',',
@@ -104,19 +99,17 @@ async function postForm() {
             
 
             if (respond_api_data == "bad_speech") {
-                alart_text.style.color = 'red';
+                resultDiv.style.color = 'red';
                 meeting_status.innerHTML = "状態：以下の内容が重複しました！！！";
                 meeting_status.style.color = 'red';
                 repeated_text.innerHTML = String(new_meeting_text_array).replace(/,/g,'<br>');
 
-                status_count = compTextArray.length - 1;
-                // console.log("bad");
+                status_count = compTextArray.length - 1;        
             } else {
                 
                 if (status_count <= 0) {
                     
-                    // console.log("good");
-                    alart_text.style.color = 'black';
+                    resultDiv.style.color = 'black';
                     meeting_status.innerHTML = "状態：正常です";
                     meeting_status.style.color = 'black';
                     repeated_text.innerHTML = '';
@@ -134,7 +127,17 @@ async function postForm() {
 
 function start(){
 
-    recognition.start();
+    if (recognition_status == "off") {
+        
+        recognition_status = "on";
+        recognition.start();
+        recognition_btn_status.innerHTML = "録音停止";
+    } else {
+        
+        recognition_status = "off";
+        recognition.stop();
+        recognition_btn_status.innerHTML = "録音開始";
+    }
 }
 
 function toTextFile(){
