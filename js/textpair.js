@@ -115,6 +115,18 @@ function RouteSetting(req, res) {
             res.write(indexPage);
             res.end();
             break;
+
+        case '/images/microphone.png':
+            res.writeHead(200, {'Content-Type': 'image/png; charset=utf-8'});
+            let image = fs.readFileSync("../images/microphone.png", "binary");
+            res.end(image, "binary");
+            break;
+
+        case '/images/output.png':
+            res.writeHead(200, {'Content-Type': 'image/png; charset=utf-8'});
+            let image2 = fs.readFileSync("../images/output.png", "binary");
+            res.end(image2, "binary");
+            break;
         
         case '/css/style.css':
             res.writeHead(200, {'Content-Type': 'text/css'});
