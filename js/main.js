@@ -16,8 +16,6 @@ recognition.interimResults = true;
 recognition.continuous = true;
 
 
-// ファイルで書き出す文章を格納する配列
-let export_textfile = [];
 
 // APIに送信する文節の数の設定
 // ↓ PHRASE_NUM = 5 の場合
@@ -34,23 +32,24 @@ let talk_count = 0;
 // サーバーにAPIのリクエストした回数
 let request_count = 0;
 
+// サーバーにリスエストする文節を一時保管する文字列
+let add_new_str = "";
 // サーバーにAPIのリクエストする音声入力した新しい文節を格納する
 let request_new_phrase = "";
 
+// result-divに表示する文字列を格納する
+let resultDiv_phrase = '';
 
-
+// ファイルで書き出す文章を格納する配列
+let export_textfile = [];
 
 
 // 音声入力中の処理
 recognition.onresult = (event) => {
     
-    // result-divに表示する文字列を格納する
-    let resultDiv_phrase = '';
     // 音声入力中にresult-divに表示する文字列を格納する
     let resultDiv_phrase_loading = '';
 
-    // サーバーにリスエストする文節を一時保管する文字列
-    let add_new_str = "";
 
     for (let i = event.resultIndex; i < event.results.length; i++) {
         let transcript = event.results[i][0].transcript;
@@ -61,7 +60,7 @@ recognition.onresult = (event) => {
             export_textfile += (transcript + ',');
             add_new_str += (transcript + ',');
             resultDiv_phrase += transcript += '<br>';
-            
+
             // 現在、音声入力されている文節の数が'PHRASE_NUM'で設定された数に等しい or 多いか？
             if (talk_count >= PHRASE_NUM) {
                 
