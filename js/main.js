@@ -101,6 +101,10 @@ recognition.onresult = (event) => {
 
 
 
+
+// 重複の発生からの経過間隔
+let status_count = 0;
+
 // サーバーにAPIのリクエストを送信する関数
 function requestAPI() {
     
@@ -114,15 +118,14 @@ function requestAPI() {
     xhr.open('POST', 'response');
     xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');
     xhr.send( json_to_textpair );
-
+    
     xhr.onreadystatechange = function() {
+        
      
         if(xhr.readyState === 4 && xhr.status === 200) {
      
             // サーバーからのレスポンスを格納する変数
             let respond_api_data = String(xhr.responseText);
-            // 重複の発生からの経過間隔
-            let status_count = 0;
 
             // 重複が発生しているか？
             if (respond_api_data == "bad_speech") {
