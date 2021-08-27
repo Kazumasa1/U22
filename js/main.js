@@ -5,6 +5,11 @@ const resultDiv = document.querySelector('#result-div');
 
 const alart_text = document.getElementById('result-div');
 
+const meeting_status = document.getElementById('status');
+const repeated_text = document.getElementById('repeated-text');
+
+
+
 
 let SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
 let recognition = new SpeechRecognition();
@@ -32,6 +37,10 @@ let post_count = 0;
 let toAPI_text = [];
 
 let phrase_count = 1;
+
+let status_count = 0;
+
+let str_repeated_text = "";
 
 
 recognition.onresult = (event) => {
@@ -96,11 +105,25 @@ async function postForm() {
 
             if (respond_api_data == "bad_speech") {
                 alart_text.style.color = 'red';
-                console.log("bad");
+                meeting_status.innerHTML = "状態：以下の内容が重複しました！！！";
+                meeting_status.style.color = 'red';
+                repeated_text.innerHTML = String(new_meeting_text_array).replace(/,/g,'<br>');
+
+                status_count = compTextArray.length - 1;
+                // console.log("bad");
             } else {
                 
-                console.log("good");
-                alart_text.style.color = 'black';
+                if (status_count <= 0) {
+                    
+                    // console.log("good");
+                    alart_text.style.color = 'black';
+                    meeting_status.innerHTML = "状態：正常です";
+                    meeting_status.style.color = 'black';
+                    repeated_text.innerHTML = '';
+                    status_count = 0;
+                } else{
+                    status_count--;
+                }
             }
             
         }
@@ -137,6 +160,8 @@ let slice_ed = 0;
 
 //ダイアログでファイルが選択された時
 text.addEventListener("change", function (event) {
+
+    
     
     const file = event.target.files;
     
@@ -174,13 +199,3 @@ text.addEventListener("change", function (event) {
         }
     }
 });
-
-
-function textAdd(){
-    // ここに読み込みが完了したら実行したい処理を記述する
-    var text1 = document.createElement("span");
-    text1.innerHTML = "2回目：アボカドの種を捨てないで取っといて水耕栽培をしています";
-    var x = document.getElementById("checker-text");
-    x.style.color = 'red';
-    x.appendChild(text1);
-}
