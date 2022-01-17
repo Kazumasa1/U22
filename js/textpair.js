@@ -11,7 +11,7 @@ const destyleCss = fs.readFileSync('../css/destyle.css', 'UTF-8');
 const scriptJs = fs.readFileSync('main.js', 'UTF-8');
 
 const axios = require(`axios`);
-const APIKEY = `***REMOVED***`; //API KEY
+const APIKEY = `XXXXXXXXXXXXXXXXXXXXXXXXX`; //API KEY
 const URL = `https://labs.goo.ne.jp/api/textpair`;
 
 
